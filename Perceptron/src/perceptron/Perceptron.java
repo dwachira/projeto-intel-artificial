@@ -114,7 +114,7 @@ public class Perceptron {
         boolean erro;
         do{
              erro = false;
-             for (int i = 0; i < 10; i++) {
+             for (int i = 0; i < 9; i++) {
                 // A saída recebe o resultado da rede que no caso é -1 ou 1
 		y = executar(x[i][0], x[i][1], x[i][2], x[i][3]);
 
