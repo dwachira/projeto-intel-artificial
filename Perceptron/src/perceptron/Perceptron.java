@@ -83,12 +83,16 @@ public class Perceptron {
         for(int i=0; i<30; i++){
             for(int j=0; j<4; j++){
                 val = x[i][j];
-                if (val < 0) {
+
+
                     x[i][j] = (x[i][j] - min) / (max - min);
-                    x[i][j] = x[i][j] * -1;
-                } else {
-                    x[i][j] = (x[i][j] - min) / (max - min);
-                }
+
+                   // if (val == -1)
+                     //    x[i][j] = -1;
+             //-       x[i][j] = x[i][j] * -1;
+           //-     } else {
+             //-       x[i][j] = (x[i][j] - min) / (max - min);
+            //-    }
          //       System.out.println("matrizN[" +i + "][" +j+ "] = " + x[i][j]);
             }
          }
@@ -114,11 +118,11 @@ public class Perceptron {
         boolean erro;
         do{
              erro = false;
-             for (int i = 0; i < 9; i++) {
+             for (int i = 0; i < 30; i++) {
                 // A saída recebe o resultado da rede que no caso é -1 ou 1
 		y = executar(x[i][0], x[i][1], x[i][2], x[i][3]);
 
-                 System.out.println("valor do i " + i);
+                // System.out.println("valor do i " + i);
                 if (y != x[i][4]) {
                    normalizarPeso(i, y);
                    erro = true;
@@ -132,7 +136,7 @@ public class Perceptron {
 
     public double executar(double x0, double x1, double x2, double x3) {
 		y = (x0 * w[0]) + (x1 * w[1]) + (x2 * w[2]) + (x3 * w[3]);
-                System.out.println("valor do y "+ y);
+               // System.out.println("valor do y "+ y);
         // Funcao de Ativação: função sinal
         if (y >= 0) {
             return 1;
@@ -146,7 +150,7 @@ public class Perceptron {
         w[1] = w[1] + taxaAprendizagem *(x[i][4] - saida)* x[i][1];
         w[2] = w[2] + taxaAprendizagem *(x[i][4] - saida)* x[i][2];
         w[3] = w[3] + taxaAprendizagem *(x[i][4] - saida)* x[i][3];
-        System.out.println("normalizado " + w[0] + " "+ w[1] + " " + w[2] + " "+ w[3]);
+       // System.out.println("normalizado " + w[0] + " "+ w[1] + " " + w[2] + " "+ w[3]);
     }
 
  public static void main(String[] args) {
