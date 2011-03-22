@@ -18,15 +18,16 @@ import java.util.Random;
 public class Perceptron {
 
     double taxaAprendizagem = 0.01;
-    double[] w = new double[4];
-    double y = 0;
-    double[][] x = new double[30][5];
+    double[] w = new double[4]; //vetor de pesos
+    double y = 0; //saída do Perceptron
+    double[][] x = new double[30][5];  //matriz com valores de treinamento e saída desejado
+    double[][] x2 = new double[10][4]; //matriz com valores de teste
     Random rand = new Random();
-    double bias = -1.0;//tÃ¡ certo!
+    double bias = -1.0;
 
 
-    public void lerArquivo(){
-        //System.out.println("Matriz original");
+    public void lerArquivoTreinamento(){
+        
         int count = 0;
         try {
         BufferedReader in = new BufferedReader(new FileReader("dados.txt"));
@@ -34,7 +35,7 @@ public class Perceptron {
             while (in.ready()) {
                 str = in.readLine();
 
-                montaMatriz(str, count);
+                montaMatrizTreinamento(str, count);
                 count++;
 
             }
@@ -44,20 +45,55 @@ public class Perceptron {
         }
     }
 
-    public void montaMatriz(String linha, int c){
+    public void lerArquivoTeste(){
+        
+        int count = 0;
+        try {
+        BufferedReader in = new BufferedReader(new FileReader("teste.txt"));
+            String str;
+            while (in.ready()) {
+                str = in.readLine();
+
+                montaMatrizTeste(str, count);
+                count++;
+
+            }
+            in.close();
+
+        } catch (IOException e) {
+        }
+    }
+
+    public void montaMatrizTreinamento(String linha, int c){
 
        String[] partes = new String[5];
        double num;
 
-       //for(int i = 0; i<30; i++){
+       
            partes = linha.split(" ");
 
            for(int j = 0; j<5; j++){
                 num = Double.parseDouble(partes[j]);
                 x[c][j] = num;
-         //       System.out.println("matriz[" +c + "][" +j+ "] = " + x[c][j]);
+        
             }
-        //}
+        
+    }
+
+    public void montaMatrizTeste(String linha, int c){
+
+       String[] partes = new String[4];
+       double num;
+
+       
+           partes = linha.split(" ");
+
+           for(int j = 0; j<4; j++){
+                num = Double.parseDouble(partes[j]);
+                x2[c][j] = num;
+         
+            }
+       
     }
 
     public void normalizarMatrizX(){
@@ -98,11 +134,6 @@ public class Perceptron {
          }
     }
 
-    public void obterConjTreino(){
-       lerArquivo();//aqui ele ler o arquivo e monta a matriz x
-
-    }
-
     public void inicializarVetorPesos(){
        // System.out.println("\n Pesos iniciais (randomicos)");
         for (int i = 0; i < 4; i++) {//w[0], w[1], w[2], w[3]
@@ -131,7 +162,7 @@ public class Perceptron {
             epoca++;
         }while (erro == true);
 
-        System.out.println("\n Vetor de pesos final: \n w[0] = " + w[0] + "\n w[1] = " + w[1]+ "\n w[2] = " + w[2]+ "\n w[3] = " + w[3]);
+        System.out.println("\n Vetor de pesos final: \n w[0] = " + w[0] + "\n w[1] = " + w[1]+ "\n w[2] = " + w[2]+ "\n w[3] = " + w[3]+"\n\n");
     }
 
     public double executar(double x0, double x1, double x2, double x3) {
@@ -144,6 +175,21 @@ public class Perceptron {
         return -1;
     }
 
+    public void testar(){
+
+        for (int i = 0; i < 10; i++) {
+
+            y = executar(x2[i][0], x2[i][1], x2[i][2], x2[i][3]);
+
+            if (y==(-1)) {
+                System.out.println("Padrão "+(i+1)+" Pertence à classe C1!\n");
+            } else {
+                System.out.println("Padrão "+(i+1)+" Pertence à classe C2!\n");
+            }
+
+        }
+    }
+
     public void normalizarPeso(int i, double saida) {
 
         w[0] = w[0] + taxaAprendizagem *(x[i][4] - saida)* x[i][0];
@@ -153,15 +199,18 @@ public class Perceptron {
        // System.out.println("normalizado " + w[0] + " "+ w[1] + " " + w[2] + " "+ w[3]);
     }
 
- public static void main(String[] args) {
-        // TODO code application logic here
 
-    // inicializarVetorPesos();
+
+ public static void main(String[] args) {
+
      Perceptron p = new Perceptron();
-     p.lerArquivo();
-     p.normalizarMatrizX();
+     p.lerArquivoTreinamento();
+    // p.normalizarMatrizX();
      p.inicializarVetorPesos();
      p.treinamento();
+
+     p.lerArquivoTeste();
+     p.testar();
 
     }
 
