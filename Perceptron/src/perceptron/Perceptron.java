@@ -19,7 +19,7 @@ import javax.swing.JFileChooser;
 
 public class Perceptron {
 
-    double taxaAprendizagem = 0.01;
+    double taxaAprendizagem = 0.001;
     double[] w = new double[4]; //vetor de pesos
     double y = 0; //saída do Perceptron
     double[][] x = new double[30][5];  //matriz com valores de treinamento e saída desejado
@@ -27,6 +27,7 @@ public class Perceptron {
     Random rand = new Random();
     double bias = -1.0;
     String file;
+    int linhasDados = 0;
 
 
     public void lerArquivoAbreJanela(){
@@ -60,7 +61,7 @@ public class Perceptron {
 
             }
             in.close();
-
+            linhasDados = count;
         } catch (IOException e) {
         }
     }
@@ -89,11 +90,13 @@ public class Perceptron {
        String[] partes = new String[5];
        double num;      
            partes = linha.split(" ");
-
+         
            for(int j = 0; j<5; j++){
                 num = Double.parseDouble(partes[j]);
-                x[c][j] = num;        
-            }        
+                x[c][j] = num;
+                System.out.println("matriz["+ c+ "]["+j+ "] " + x[c][j]);
+            }
+          
     }
 
     public void montaMatrizTeste(String linha, int c){
@@ -101,11 +104,17 @@ public class Perceptron {
        String[] partes = new String[4];
        double num;      
            partes = linha.split(" ");
-
+         
            for(int j = 0; j<4; j++){
                 num = Double.parseDouble(partes[j]);
                 x2[c][j] = num;        
-            }       
+            }
+        
+           
+
+
+
+
     }
 
     public void normalizarMatrizX(){
@@ -172,15 +181,16 @@ public class Perceptron {
         //obterConjTreino();
         int epoca = 0;
         boolean erro;
+        //linhasDados = 30;
         do{
              erro = false;
-             for (int i = 0; i < 30; i++) {
+             for (int i = 0; i < linhasDados; i++) {
                 // A saída recebe o resultado da rede que no caso é -1 ou 1
 		y = executar(x[i][0], x[i][1], x[i][2], x[i][3]);
 
                 // System.out.println("valor do i " + i);
                 if (y != x[i][4]) {
-                   normalizarPeso(i, y);
+                   atualizarPeso(i, y);
                    erro = true;
                 }
             }
@@ -216,7 +226,7 @@ public class Perceptron {
         }
     }
 
-    public void normalizarPeso(int i, double saida) {
+    public void atualizarPeso(int i, double saida) {
 
         w[0] = w[0] + taxaAprendizagem *(x[i][4] - saida)* x[i][0];
         w[1] = w[1] + taxaAprendizagem *(x[i][4] - saida)* x[i][1];
