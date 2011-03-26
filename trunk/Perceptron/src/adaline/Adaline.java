@@ -50,7 +50,7 @@ public class Adaline {
 
             }
             in.close();
-            linhasDados = count;
+           // linhasDados = count;
 
         } catch (IOException e) {
         }
@@ -101,8 +101,8 @@ public class Adaline {
          System.out.println("EQM_atual " + EQM_atual + " EQM_ant " + EQM_ant);
         while(  Math.abs(EQM_atual - EQM_ant) > erro ){
             EQM_ant = EQM_atual;
-             for (int i = 0; i < linhasDados; i++) {
-                 u = ((x[i][0] * w[0]) + (x[i][1] * w[1]) + (x[i][2] * w[2]) + (x[i][3] * w[3]) + (x[i][4] * w[4]) );
+             for (int i = 0; i < 35; i++) {
+                 u = executar(x[i][0], x[i][1], x[i][2], x[i][3], x[i][4]);
                  atualizarPeso(i,u);
 
             }
@@ -134,12 +134,12 @@ public class Adaline {
          double soma = 0;
          double u, aux;
 
-         for(int i = 0; i<linhasDados; i++){ //somatório
+         for(int i = 0; i<35; i++){ //somatório
             u = executar(x[i][0], x[i][1], x[i][2], x[i][3], x[i][4]);
-            aux = (x[i][5] - u) * (x[i][5] - u);
+            aux = Math.pow((x[i][5] - u),2);
             soma = soma + aux;
          }
-         EQM = soma/linhasDados;
+         EQM = soma/35;
          return EQM;
      }
 
@@ -147,13 +147,14 @@ public class Adaline {
           for (int i = 0; i < 15; i++) {
 
             y = executar(x2[i][0], x2[i][1], x2[i][2], x2[i][3], x2[i][4]);
-             if (y >= 0) {
-                    y = 1;
-             }
-             else
-                 y = -1;
+              if (y>=0) {
+                  y=1;
+              } else {
+                y=-1;
+              }
 
-            if (y==(-1)) {
+
+             if (y==(-1)) {
                 System.out.println("Padrão "+(i+1)+" Pertence à classe A! -> y = -1");
             } else {
                 System.out.println("Padrão "+(i+1)+" Pertence à classe B! -> y = 1");
