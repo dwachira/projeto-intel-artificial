@@ -182,11 +182,11 @@ public class Adaline {
          Adaline ad = new Adaline();
 
          //String f = ad.lerArquivoAbreJanela();
-         ad.lerArquivo("TreinoA", "C:\\Users\\Larissa\\Documents\\UEFS\\10º Semestre\\IA\\Pratica02\\dadosA.txt");
+         ad.lerArquivo("TreinoA", "dadosA.txt");
          ad.inicializarVetorPesos();
          ad.treinamento();
 
-         ad.lerArquivo("TesteA", "C:\\Users\\Larissa\\Documents\\UEFS\\10º Semestre\\IA\\Pratica02\\testeA.txt");
+         ad.lerArquivo("TesteA", "testeA.txt");
          ad.teste();
 
      }
