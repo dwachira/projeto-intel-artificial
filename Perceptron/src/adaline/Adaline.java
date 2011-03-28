@@ -121,11 +121,11 @@ public class Adaline {
 
      public void atualizarPeso(int i, double saida) {
 
-        w[0] = w[0] + taxaAprendizagem *(x[i][4] - saida)* x[i][0];
-        w[1] = w[1] + taxaAprendizagem *(x[i][4] - saida)* x[i][1];
-        w[2] = w[2] + taxaAprendizagem *(x[i][4] - saida)* x[i][2];
-        w[3] = w[3] + taxaAprendizagem *(x[i][4] - saida)* x[i][3];
-        w[4] = w[4] + taxaAprendizagem *(x[i][4] - saida)* x[i][4];
+        w[0] = w[0] + taxaAprendizagem *(x[i][5] - saida)* x[i][0];
+        w[1] = w[1] + taxaAprendizagem *(x[i][5] - saida)* x[i][1];
+        w[2] = w[2] + taxaAprendizagem *(x[i][5] - saida)* x[i][2];
+        w[3] = w[3] + taxaAprendizagem *(x[i][5] - saida)* x[i][3];
+        w[4] = w[4] + taxaAprendizagem *(x[i][5] - saida)* x[i][4];
        // System.out.println("normalizado " + w[0] + " "+ w[1] + " " + w[2] + " "+ w[3]);
     }
 
