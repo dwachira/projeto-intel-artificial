@@ -5,11 +5,25 @@
 
 package adaline;
 
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.Dataset;
+import org.jfree.data.general.DefaultValueDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 
 /**
  *
@@ -89,16 +103,17 @@ public class Adaline {
 	}
          System.out.println(w[0] + "\n" + w[1] + "\n" + w[2] + "\n" + w[3] + "\n" + w[4]);
     }
-
+final XYSeries series = new XYSeries ("Data");
      public void treinamento(){
-
+        
         //obterConjTreino();
         int epoca = 0;
         EQM_ant = INF;
         EQM_atual = calc_EQM();
         double u;
+         System.out.println("lala ");
 
-         System.out.println("EQM_atual " + EQM_atual + " EQM_ant " + EQM_ant);
+       //  System.out.println("EQM_atual " + EQM_atual + " EQM_ant " + EQM_ant);
         while(  Math.abs(EQM_atual - EQM_ant) > erro ){
             EQM_ant = EQM_atual;
              for (int i = 0; i < 35; i++) {
@@ -108,11 +123,36 @@ public class Adaline {
             }
             epoca++;
             EQM_atual = calc_EQM();
-        }
-        System.out.println("\n Epocas: " + epoca);
+            System.out.println(EQM_atual);
 
+
+
+            series.add(epoca,EQM_atual);
+
+        }
+
+        gerarGráfico();
+        System.out.println("\n Epocas: " + epoca);
+        
         System.out.println("\n Vetor de pesos final: \n w[0] = " + w[0] + "\n w[1] = " + w[1]+ "\n w[2] = " + w[2]+ "\n w[3] = " + w[3] + "\n w[4] = " + w[4] +"\n\n");
     }
+
+     public void gerarGráfico(){
+         JFrame frame = new JFrame("Erro quadrático x Épocas");
+         frame.setSize(new Dimension(1024,1024));
+
+         final XYSeriesCollection data = new XYSeriesCollection(series);
+         final JFreeChart chart = ChartFactory.createXYLineChart("Erro quadrático x quantidade de épocas", "Épocas", "Erro quadrático",
+                 data,PlotOrientation.VERTICAL , true,true, false);
+         final ChartPanel chartPanel = new ChartPanel(chart);
+            chartPanel.setPreferredSize(new java.awt.Dimension (1024, 1024));
+            chartPanel.setVisible(true);
+
+            frame.setContentPane(chartPanel);
+            frame.setVisible(true);
+
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     }
 
      public double executar(double x0, double x1, double x2, double x3, double x4) {
 		y = (x0 * w[0]) + (x1 * w[1]) + (x2 * w[2]) + (x3 * w[3] + (x4 * w[4]) );
