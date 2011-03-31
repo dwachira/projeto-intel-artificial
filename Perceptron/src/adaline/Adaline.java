@@ -25,6 +25,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 
+
 /**
  *
  * @author Larissa
@@ -44,7 +45,7 @@ public class Adaline {
     double EQM;
     double INF = 1000000000;
     int linhasDados = 0;
-
+    
      public void lerArquivo(String tipo, String arquivo){
         
         int count = 0;
