@@ -224,7 +224,7 @@ public class Perceptron {
             }
 
         }
-    }
+    } //fim do método testar
 
     public void atualizarPeso(int i, double saida) {
 
